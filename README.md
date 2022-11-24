@@ -4,6 +4,6 @@
 
 - 💪 Qualidades: Dedicado, curioso, bom em trabalho de equipe e o mais importante: domínio na arte de usar o google.
 
-- 💼 Aqui no meu Github possuo repositórios com projetos meus, fique à vontade para conhecê-los! 
+- 💼 Aqui no meu Github possuo repositórios com meus projetos, fique à vontade para conhecê-los! 
 
 - 📫 Email: julio.cerqueiira@gmail.com
