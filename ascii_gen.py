@@ -1,33 +1,33 @@
 import sys
-from PIL import Image, ImageEnhance, ImageOps
+from PIL import Image
 
 RAMP = " .':;|!i(ljknmwkX%M@@"
 
-def to_ascii(path, box, cols, rows, contrast=1.6, invert=False):
-    img = Image.open(path).convert("L").crop(box)
-    img = ImageOps.autocontrast(img)
-    img = ImageEnhance.Contrast(img).enhance(contrast)
-    img = img.resize((cols, rows))
-    if invert:
-        img = ImageOps.invert(img)
-    px = img.load()
-    lines = []
+
+def ascii_masked(photo_path, mask_path, cols, rows, gamma):
+    alpha_full = Image.open(mask_path).getchannel("A")
+    bbox = alpha_full.getbbox()
+    gray = Image.open(photo_path).convert("L").crop(bbox).resize((cols, rows))
+    alpha = alpha_full.crop(bbox).resize((cols, rows))
+    g, a = gray.load(), alpha.load()
+    subject = sorted(g[x, y] for y in range(rows) for x in range(cols) if a[x, y] >= 96)
+    rank = {}
+    for i, v in enumerate(subject):
+        rank.setdefault(v, i / (len(subject) - 1))
+    out = []
     for y in range(rows):
         line = ""
         for x in range(cols):
-            v = px[x, y]
-            line += RAMP[v * (len(RAMP) - 1) // 255]
-        lines.append(line.rstrip())
-    return lines
+            if a[x, y] < 96:
+                line += " "
+                continue
+            v = (1.0 - rank[g[x, y]]) ** gamma
+            line += RAMP[max(1, int(v * (len(RAMP) - 1)))]
+        out.append(line.rstrip())
+    return out
+
 
 if __name__ == "__main__":
-    l, t, r, b, cols, rows, contrast, inv = sys.argv[1:9]
-    for line in to_ascii(
-        "avatar.png",
-        (int(l), int(t), int(r), int(b)),
-        int(cols),
-        int(rows),
-        float(contrast),
-        inv == "1",
-    ):
+    photo, mask, cols, rows, gamma = sys.argv[1:6]
+    for line in ascii_masked(photo, mask, int(cols), int(rows), float(gamma)):
         print(line)

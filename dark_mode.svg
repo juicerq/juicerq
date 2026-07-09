@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<svg xmlns="http://www.w3.org/2000/svg" font-family="ConsolasFallback,Consolas,monospace" width="985px" height="530px" font-size="16px">
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" font-family="ConsolasFallback,Consolas,monospace" width="985px" height="530px" font-size="16px">
 <style>
 @font-face {
 src: local('Consolas'), local('Consolas Bold');
@@ -17,28 +17,28 @@ text, tspan {white-space: pre;}
 </style>
 <rect width="985px" height="530px" fill="#161b22" rx="15"/>
 <text x="15" y="30" fill="#c9d1d9" class="ascii">
-<tspan x="15" y="30">  .....            .       ..</tspan>
-<tspan x="15" y="50">                    .. .'::;'</tspan>
-<tspan x="15" y="70">''.       ..';!!|!|i!iii(i!!|;</tspan>
-<tspan x="15" y="90">''.:::;;!(l((jkknmmnnmmnnnkj((|'.</tspan>
-<tspan x="15" y="110">;::ijlljnmmnknmwwwkwwwkwwwmmnkj(ii:'''</tspan>
-<tspan x="15" y="130">knnnnknwkkkwwkkXkkXXXkkkkwwwwmnkj(:'.</tspan>
-<tspan x="15" y="150">wkkkmwXXXXkkkXXXXXkwnnmwkwwmmmwki:</tspan>
-<tspan x="15" y="170">kkXkkXXXXkkkkwnjjjjl((lljkjl((lkn'</tspan>
-<tspan x="15" y="190">XXkXXXXXXXkmnl((iiiiiiiiiiiii!!!('</tspan>
-<tspan x="15" y="210">kXX%%%%%%%Xmkjl(iiiiiiiiiiiiii!!!.</tspan>
-<tspan x="15" y="230">X%MMMMMMMM%kkjll((((((((((i((iiii;</tspan>
-<tspan x="15" y="250">MMMM@@@MM%mkknwkXXkwkwwnjlllkmwwmk:  .</tspan>
-<tspan x="15" y="270">@@@@@@@MXnkknwkX%MMMM%%XwkjnkX%%Xk|..</tspan>
-<tspan x="15" y="290">wwk%M@MM%wnkknmXMMMMMM%%%wjm%%%%%n;;|'</tspan>
-<tspan x="15" y="310">kkjnkM@M%mnkkkkw%%%%%%%%%m(lkXXXX(:;;.</tspan>
-<tspan x="15" y="330">jjjmkwkXwmnkkkknwXXXX%XXmjl(lmwkknkl'</tspan>
-<tspan x="15" y="350">kjkmnnknnnnnnnnnnnmmwwwwnnnkknmnki'.</tspan>
-<tspan x="15" y="370">Xnjlljknnnnnnnnnnnnnnmwk%M%%Xmmnj'</tspan>
-<tspan x="15" y="390">%XX%kmwwnnnnnnnnnnmk%M%M@M%%M%%kjk(;'</tspan>
-<tspan x="15" y="410">%XXM@Xmnnnnnnnmnnnw%%M%%%%%XkwmknX%%%k</tspan>
-<tspan x="15" y="430">%XkX@%mnnnmmmwwwwwwwwwwkXXXXwnjwXXXXXX</tspan>
-<tspan x="15" y="450">X%kwXXmmnnwkXXXkkkkwwwkk%M@%kkmM%XX%%%</tspan>
+<tspan x="15" y="30"/>
+<tspan x="15" y="50"/>
+<tspan x="15" y="70">                             ..</tspan>
+<tspan x="15" y="90">                 .........'''...</tspan>
+<tspan x="15" y="110">            ...'';i|;iljjljjli!;'.</tspan>
+<tspan x="15" y="130">          .'i((ilnnjjnnnnjljkllli:.</tspan>
+<tspan x="15" y="150">         .'iknknmnnkj!;;:'':;::':;</tspan>
+<tspan x="15" y="170">         .;(nnmwwwml;'.............</tspan>
+<tspan x="15" y="190">         .::mkkkkkwj;::::::'''''''.</tspan>
+<tspan x="15" y="210">          ;kXXXXXwi;|lmkkwwn!:!kmm!.</tspan>
+<tspan x="15" y="230">           liikkXk(;;!nkkkkkm:!www'..</tspan>
+<tspan x="15" y="250">           i::(jkji|;;iknnmni:'!jj:.</tspan>
+<tspan x="15" y="270">            (;;;|!!!i|||iiljjkjii;.</tspan>
+<tspan x="15" y="290">             nwj(i!||!!|(mwwkkwwk;</tspan>
+<tspan x="15" y="310">               ki|i(((((ljjnmmni|</tspan>
+<tspan x="15" y="330">               ((!ilnwmnklljmknik</tspan>
+<tspan x="15" y="350">              ..:||i(mkX%%%XXXk</tspan>
+<tspan x="15" y="370">            ki|nmki|!(kwkXXXw</tspan>
+<tspan x="15" y="390">          (iwXM@@@@%Xwnkkmmk</tspan>
+<tspan x="15" y="410">       Xi|(kwkX%%M@@@@M%X%XXMMMM</tspan>
+<tspan x="15" y="430">     X(|lknwkX%%%MMMM@@@MMMM@@@@@k</tspan>
+<tspan x="15" y="450">    l!jwX%%MM@@@@@@@@MMM%%%%X%@M%:</tspan>
 </text>
 <text x="390" y="30" fill="#c9d1d9">
 <tspan x="390" y="30">juicerq@github</tspan> -—————————————————————————————————————————-—-
