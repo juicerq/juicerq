@@ -1,0 +1,32 @@
+{
+    "workbench.colorTheme": "Min Dark",
+    "terminal.integrated.defaultProfile.linux": "fish",
+    "breadcrumbs.enabled": false,
+    "editor.stickyScroll.enabled": false,
+    "editor.renderWhitespace": "none",
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "git.enableSmartCommit": true,
+    "workbench.sideBar.location": "right",
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true,
+    "[prisma]": {
+        "editor.defaultFormatter": "Prisma.prisma",
+        "editor.formatOnSave": true
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "biomejs.biome" 
+    },
+    "[json]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "explorer.confirmDelete": false,
+    "cursor.cpp.enablePartialAccepts": true,
+    "workbench.statusBar.visible": false,
+    "window.menuBarVisibility": "compact",
+    "workbench.layoutControl.enabled": false,
+    "window.commandCenter": false
+}
