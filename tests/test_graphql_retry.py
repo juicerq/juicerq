@@ -50,5 +50,29 @@ class GraphqlRequestTests(unittest.TestCase):
         preserve.assert_called_once_with()
 
 
+class StarsCounterTests(unittest.TestCase):
+    @patch('builtins.print')
+    def test_skips_null_node(self, print_mock):
+        data = [
+            {'node': None},
+            {'node': {'stargazers': {'totalCount': 4}}},
+        ]
+        self.assertEqual(today.stars_counter(data), 4)
+        print_mock.assert_called_once_with(
+            'Star count entries ignored due to missing data:', 1
+        )
+
+    @patch('builtins.print')
+    def test_skips_null_stargazers(self, print_mock):
+        data = [
+            {'node': {'stargazers': None}},
+            {'node': {'stargazers': {'totalCount': 2}}},
+        ]
+        self.assertEqual(today.stars_counter(data), 2)
+        print_mock.assert_called_once_with(
+            'Star count entries ignored due to missing data:', 1
+        )
+
+
 if __name__ == '__main__':
     unittest.main()
