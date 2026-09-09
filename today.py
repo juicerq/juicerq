@@ -310,11 +310,18 @@ def force_close_file(data, cache_comment):
 
 
 def stars_counter(data):
-    """
-    Count total stars in repositories owned by me
-    """
+    """Count stars from valid repository nodes and report skipped entries."""
     total_stars = 0
-    for node in data: total_stars += node['node']['stargazers']['totalCount']
+    skipped_entries = 0
+    for edge in data:
+        node = edge.get('node') if isinstance(edge, dict) else None
+        stargazers = node.get('stargazers') if isinstance(node, dict) else None
+        star_count = stargazers.get('totalCount') if isinstance(stargazers, dict) else None
+        if not isinstance(star_count, int) or isinstance(star_count, bool):
+            skipped_entries += 1
+            continue
+        total_stars += star_count
+    print('Star count entries ignored due to missing data:', skipped_entries)
     return total_stars
 
 
