@@ -13,6 +13,8 @@ import hashlib
 HEADERS = {'authorization': 'token '+ os.environ['ACCESS_TOKEN']}
 USER_NAME = os.environ['USER_NAME'] # 'Andrew6rant'
 QUERY_COUNT = {'user_getter': 0, 'follower_getter': 0, 'graph_repos_stars': 0, 'recursive_loc': 0, 'graph_commits': 0, 'loc_query': 0}
+TRANSIENT_STATUS_CODES = {429, 502, 503}
+MAX_REQUEST_ATTEMPTS = 4
 
 
 def daily_readme(birthday):
@@ -40,14 +42,32 @@ def format_plural(unit):
     return 's' if unit != 1 else ''
 
 
+def graphql_request(func_name, query, variables, before_failure=None):
+    """Send a GraphQL request, retrying only responses that are safe to retry."""
+    for attempt in range(MAX_REQUEST_ATTEMPTS):
+        request = requests.post(
+            'https://api.github.com/graphql',
+            json={'query': query, 'variables': variables},
+            headers=HEADERS,
+        )
+        if request.status_code == 200:
+            return request
+        if request.status_code not in TRANSIENT_STATUS_CODES or attempt == MAX_REQUEST_ATTEMPTS - 1:
+            if before_failure is not None:
+                before_failure()
+            raise Exception(func_name, ' has failed with a', request.status_code, request.text, QUERY_COUNT)
+
+        retry_after = request.headers.get('Retry-After')
+        try:
+            delay = float(retry_after) if retry_after is not None else 2 ** attempt
+        except ValueError:
+            delay = 2 ** attempt
+        time.sleep(max(0, delay))
+
+
 def simple_request(func_name, query, variables):
-    """
-    Returns a request, or raises an Exception if the response does not succeed.
-    """
-    request = requests.post('https://api.github.com/graphql', json={'query': query, 'variables':variables}, headers=HEADERS)
-    if request.status_code == 200:
-        return request
-    raise Exception(func_name, ' has failed with a', request.status_code, request.text, QUERY_COUNT)
+    """Returns a request, or raises an Exception if the response does not succeed."""
+    return graphql_request(func_name, query, variables)
 
 
 def graph_commits(start_date, end_date):
@@ -144,15 +164,15 @@ def recursive_loc(owner, repo_name, data, cache_comment, addition_total=0, delet
         }
     }'''
     variables = {'repo_name': repo_name, 'owner': owner, 'cursor': cursor}
-    request = requests.post('https://api.github.com/graphql', json={'query': query, 'variables':variables}, headers=HEADERS) # I cannot use simple_request(), because I want to save the file before raising Exception
-    if request.status_code == 200:
-        if request.json()['data']['repository']['defaultBranchRef'] != None: # Only count commits if repo isn't empty
-            return loc_counter_one_repo(owner, repo_name, data, cache_comment, request.json()['data']['repository']['defaultBranchRef']['target']['history'], addition_total, deletion_total, my_commits)
-        else: return 0
-    force_close_file(data, cache_comment) # saves what is currently in the file before this program crashes
-    if request.status_code == 403:
-        raise Exception('Too many requests in a short amount of time!\nYou\'ve hit the non-documented anti-abuse limit!')
-    raise Exception('recursive_loc() has failed with a', request.status_code, request.text, QUERY_COUNT)
+    request = graphql_request(
+        recursive_loc.__name__,
+        query,
+        variables,
+        before_failure=lambda: force_close_file(data, cache_comment),
+    )
+    if request.json()['data']['repository']['defaultBranchRef'] != None: # Only count commits if repo isn't empty
+        return loc_counter_one_repo(owner, repo_name, data, cache_comment, request.json()['data']['repository']['defaultBranchRef']['target']['history'], addition_total, deletion_total, my_commits)
+    else: return 0
 
 
 def loc_counter_one_repo(owner, repo_name, data, cache_comment, history, addition_total, deletion_total, my_commits):
@@ -277,14 +297,15 @@ def flush_cache(edges, filename, comment_size):
 
 
 def force_close_file(data, cache_comment):
-    """
-    Forces the file to close, preserving whatever data was written to it
-    This is needed because if this function is called, the program would've crashed before the file is properly saved and closed
-    """
+    """Atomically preserve partial cache data before a request error is raised."""
     filename = 'cache/'+hashlib.sha256(USER_NAME.encode('utf-8')).hexdigest()+'.txt'
-    with open(filename, 'w') as f:
+    temporary_filename = filename + '.tmp'
+    with open(temporary_filename, 'w') as f:
         f.writelines(cache_comment)
         f.writelines(data)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(temporary_filename, filename)
     print('There was an error while writing to the cache file. The file,', filename, 'has had the partial data saved and closed.')
 
 
